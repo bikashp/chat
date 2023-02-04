@@ -4,7 +4,20 @@ defmodule ChatWeb.RoomLive do
 
   @impl true
   def mount(%{"id" => room_id}, _session, socket) do
-    {:ok, assign(socket, room_id: room_id)}
+    topic = "room:" <> room_id
+    ChatWeb.Endpoint.subscribe(topic)
+    {:ok, assign(socket, room_id: room_id, topic: topic, messages: ["Twitch joined chat"])}
+  end
+
+  @impl true
+  def handle_event("submit_message", %{"chat" => %{"message" => message}}, socket) do
+    ChatWeb.Endpoint.broadcast(socket.assigns.topic, "new-message", message)
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_info(%{event: "new-message", payload: message}, socket) do
+   {:noreply, assign(socket, messages: socket.assigns.messages ++ [message])}
   end
 
 end
