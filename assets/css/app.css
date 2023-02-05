@@ -5,16 +5,15 @@
 
 #chat-container {
   display: flex;
-  border: solid 1px #cccccc;
-  padding: 1em;
-  margin: -1em 1em 1em -1em;
-  flex-direction: column;
   justify-content: space-between;
   height: 500px;
 }
 
 #chat-messages {
   flex-grow: 1;
+  padding: 1em;
+  margin: -1em 1em 1em -1em;
+  border: solid 1px #cccccc;
 }
 
 /* Alerts and form errors used by phx.new */
